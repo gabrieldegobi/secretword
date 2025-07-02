@@ -69,6 +69,7 @@ function App() {
     setGameStage(stage[1].name)
  
   }
+  //aqui esta um comentario novo
 
   // process the letter input
   const verifyLetter = () => {
