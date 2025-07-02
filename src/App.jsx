@@ -7,7 +7,7 @@ import Game from './components/Game/Game'
 import GameOver from './components/GameOver/GameOver'
 
 //REACT
-import { useCallback, useEffect, useState } from 'react'
+import { use, useCallback, useEffect, useState } from 'react'
 
 //DATA
 import { wordsList } from "./data/words"
@@ -36,51 +36,83 @@ function App() {
   const pickWordAndCategory = () => {
     //pick a random category
     const categories = Object.keys(words)//metodo que retorna todas as chaves dos objetos
-    
+
     //cria um array de valores
     const category =
-    categories[Math.floor(Math.random() * Object.keys(categories).length)]
-    
+      categories[Math.floor(Math.random() * Object.keys(categories).length)]
+
     //pick a random word
     const word =
-    words[category][Math.floor(Math.random() * words[category].length)]
-    
-    
+      words[category][Math.floor(Math.random() * words[category].length)]
+
+
     return { word, category }
   }
-  
-  
+
+
   //starts the secret word game
   const startgame = () => {
     //pick word and pick category   
     const { word, category } = pickWordAndCategory()
-    
+
     //create a array of letters
     let wordLetters = word.split('')
     wordLetters = wordLetters.map((l) => l.toLowerCase())
     console.log(wordLetters)
-    
+
     //fill states
     setPickedCategory(category)
     setPickedWord(word)
     setLetters(wordLetters)
-    
-    
+
+
     setGameStage(stage[1].name)
- 
+
   }
-  //aqui esta um comentario novo
 
   // process the letter input
-  const verifyLetter = () => {
-    setGameStage(stage[2].name)
+  const verifyLetter = (letter) => {
+    const normalizeLetter = letter.toLowerCase()
+
+    //check if letter has already been utilized
+
+    if (
+      guessedLetters.includes(normalizeLetter) ||
+      wrongLetters.includes(normalizeLetter)
+    ) {
+      return
+    }
+
+    //push guessed letter or remove a guess
+
+    if (
+      letters.includes(normalizeLetter)
+    ) {
+      setGuessedLetters((actualGuessedLetters) => [
+        ...actualGuessedLetters, normalizeLetter
+      ]
+      )
+    } else {
+      setWrongLetters((actualWrongLetters) => [
+        ...actualWrongLetters, normalizeLetter
+      ])
+      setGuesses((actualGuesses) => actualGuesses - 1)
+    }
+
   }
+
+  useEffect(() => {
+    
+    if (guesses <= 0) {
+      setGameStage(stage[2].game)
+    }
+  }, [guesses])
+
 
   //restarts the game
   const retry = () => {
     setGameStage(stage[0].name)
   }
-
 
   return (
     <div className={styles.App}>

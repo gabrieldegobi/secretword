@@ -1,8 +1,23 @@
+import { useState, useRef } from 'react'
 import styles from './Game.module.css'
 
 
 
 const Game = ({ verifyLetter, pickedCategory, pickedWord, letters, guessedLetters, wrongLetters, guesses, score }) => {
+
+  const [letter, setLetter] = useState('')
+  const letterInputRef = useRef(null)
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    verifyLetter(letter)
+    setLetter('')
+    //PARA DEIXAR O INPUT EM FOCUS
+    letterInputRef.current.focus()
+  }
+
+
   return (
 
     <div className={styles.game}>
@@ -27,27 +42,34 @@ const Game = ({ verifyLetter, pickedCategory, pickedWord, letters, guessedLetter
             )
           )
         }
-
-
-
-
-
       </div>
 
       <div className={styles.letterContainer}>
         <p>Tente adivinhar uma letra da palavra</p>
-        <input type="text" name='letter' maxLength='1' required />
-        <button>Jogar</button>
+        <form onSubmit={handleSubmit}>
+
+          <input
+            type="text"
+            name='letter'
+            maxLength='1'
+            required
+            onChange={(e) => setLetter(e.target.value)}
+            value={letter}
+            ref={letterInputRef}
+          />
+
+          <button>Jogar</button>
+        </form>
       </div>
 
       <div className={styles.wrongLetterContainer}>
         <p>letras Já utilizadas</p>
         {
-          wrongLetters.map((letter,i)=>(
+          wrongLetters.map((letter, i) => (
             <span key={i}>{letter}</span>
           ))
         }
-        
+
       </div>
 
     </div>
