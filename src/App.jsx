@@ -100,22 +100,32 @@ function App() {
     }
 
   }
-  //comentario teste
+
+  const clearLetterStates = ()=>{
+    setGuessedLetters([])
+    setWrongLetters([])
+  }
+
+
 
   useEffect(() => {
     
     if (guesses <= 0) {
-<<<<<<< HEAD
+      //reset all states
+      clearLetterStates()
       setGameStage(stage[2].name)
-=======
-      setGameStage(stage[2].game)
->>>>>>> e3560a4 (incremento de logica)
+
+
+
     }
   }, [guesses])
 
 
   //restarts the game
   const retry = () => {
+    setScore(0)
+    setGuesses(3)
+
     setGameStage(stage[0].name)
   }
 
