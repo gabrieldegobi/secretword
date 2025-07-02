@@ -69,7 +69,6 @@ function App() {
     setGameStage(stage[1].name)
 
   }
-  //aqui esta um comentario novo
 
   // process the letter input
   const verifyLetter = (letter) => {
@@ -105,7 +104,11 @@ function App() {
   useEffect(() => {
     
     if (guesses <= 0) {
+<<<<<<< HEAD
       setGameStage(stage[2].name)
+=======
+      setGameStage(stage[2].game)
+>>>>>>> e3560a4 (incremento de logica)
     }
   }, [guesses])
 
